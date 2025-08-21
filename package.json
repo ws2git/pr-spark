@@ -1,0 +1,27 @@
+{
+  "name": "pr-spark",
+  "version": "1.0.0",
+  "description": "Automatically open pull requests between branches with GitHub’s API. Perfect for automation, workflows, and keeping your code in sync.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build src/index.ts -o dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ws2git/pr-spark.git"
+  },
+  "keywords": [],
+  "author": "rmottanet",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@vercel/ncc": "^0.38.3",
+    "typescript": "^5.9.2"
+  }
+}
