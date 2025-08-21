@@ -1,0 +1,30 @@
+name: 'PR Spark – Auto Create Pull Requests'
+description: 'Automatically create pull requests between branches using GitHub’s API for workflows and automation.'
+author: 'rmottanet'
+branding:
+  icon: 'git-pull-request'
+  color: 'orange'
+inputs:
+  github-token:
+    description: 'GitHub token for authentication'
+    required: true
+  title:
+    description: 'Pull Request Title'
+    required: true
+  body:
+    description: 'Corpo do Pull Request'
+    required: false
+  source-branch:
+    description: 'The branch from which the PR will be opened'
+    required: true
+  dest-branch:
+    description: 'The PR target branch'
+    required: true
+
+outputs:
+  pull-request-url:
+    description: 'Created Pull Request URL'
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
