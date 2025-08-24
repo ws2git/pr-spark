@@ -1,4 +1,4 @@
-name: 'PR Spark – Auto Create Pull Requests'
+name: 'PR Spark'
 description: 'Automatically create pull requests between branches using GitHub’s API for workflows and automation.'
 author: 'rmottanet'
 branding:
