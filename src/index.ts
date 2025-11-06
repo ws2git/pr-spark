@@ -1,43 +1,42 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 
-async function run() {
+async function run(): Promise<void> {
   try {
-    // 1. Obtém o token do GitHub
+    // Inputs
     const githubToken = core.getInput('github-token', { required: true });
+    const title = core.getInput('title', { required: true }).trim();
+    const body = core.getInput('body', { required: false })?.trim() || undefined;
+    const sourceBranch = core.getInput('source-branch', { required: true }).trim();
+    const destBranch = core.getInput('dest-branch', { required: true }).trim();
 
-    // 2. Cria uma instância do cliente Octokit (para interagir com a API)
-    const octokit = github.getOctokit(githubToken);
-
-    // 3. Obtém os inputs da action
-    const title = core.getInput('title', { required: true });
-    const body = core.getInput('body', { required: false });
-    const head = core.getInput('source-branch', { required: true });
-    const base = core.getInput('dest-branch', { required: true });
-
-    // 4. Obtém informações do repositório
+    // Repo context
     const { owner, repo } = github.context.repo;
 
-    // 5. Cria o Pull Request
+    const octokit = github.getOctokit(githubToken);
+
+    core.info(`Creating pull request from '${sourceBranch}' to '${destBranch}' in ${owner}/${repo}`);
+
+    // Create PR
     const { data: pullRequest } = await octokit.rest.pulls.create({
       owner,
       repo,
       title,
-      head,
-      base,
-      body
+      head: sourceBranch,
+      base: destBranch,
+      body,
     });
 
-    console.log(`Created Pull Request: ${pullRequest.html_url}`);
-
-    // 6. Define o output para uso em actions futuras
+    core.info(`Created Pull Request: ${pullRequest.html_url}`);
     core.setOutput('pull-request-url', pullRequest.html_url);
 
-  } catch (error) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
-      core.setFailed(error.message);
+      core.setFailed(`Action failed with error: ${error.message}`);
+    } else {
+      core.setFailed('Action failed with unknown error.');
     }
   }
 }
 
-run();
+void run();
